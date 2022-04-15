@@ -1,0 +1,358 @@
+---
+title: "ActividadColaborativa"
+output: html_document
+date: '2022-04-11'
+---
+#Integrantes:
+#Fernanda Elizabeth Romo Alarcon - A01639261
+#César Arnaldo Cabrera Chávez - A01642244
+#Javier Hernández Garza A01635390
+#Inés Alejandro Garcia Mosqueda - A00834571
+#José Antonio Juárez Pacheco - A00572186
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+```
+
+1.	Escribe una función que genere una secuencia aleatoria de DNA de tamaño “n”.
+
+#rDNA -> Cadena aleatoria generada
+
+```{r ej1}
+randomDNA=function(){
+  n = 35
+  #n=readline(prompt="n numero de datos: ")
+  #n=as.integer(n)
+  v=c("A","T","G","C","N","-")
+  DNA=sample(v,n,replace=TRUE)
+
+return (DNA)
+}
+
+rDNA=randomDNA()
+print(rDNA)
+
+```
+2.	Codifica una función que calcula el tamaño de una secuencia de DNA.
+
+```{r ej2}
+
+size=function(DNA){
+  return(length(DNA))
+}
+size_DNA=size(rDNA)
+print(paste("Size",size_DNA))
+
+```
+
+3.	Crea una función que recibe una secuencia de DNA e imprime el porcentaje de cada base en la secuencia.
+
+```{r ej3}
+
+porcentajes=function(DNA,sizeDNA){
+  v=table(DNA)
+  i=1
+  n=sizeDNA
+  A=0
+  C=0
+  G=0
+  Tc=0
+  Guion=0
+  if ("A" %in% DNA){
+    A=(v[i]/n)*100
+    i=i+1
+  }
+  if ("C" %in% DNA){
+    C=(v[i]/n)*100
+    i=i+1
+  }
+  if ("G" %in% DNA){
+    G=(v[i]/n)*100
+    i=i+1
+  }
+  if ("T" %in% DNA){
+    Tc=(v[i]/n)*100
+    i=i+1
+  }
+  if ("N" %in% DNA){
+    N=(v[i]/n)*100
+    i=i+1
+  }
+  if ("-" %in% DNA){
+    Guion=(v[i]/n)*100
+    i=i+1
+  }
+  return (c(A,C,G,Tc,N,Guion))
+}
+p=porcentajes(rDNA,size_DNA)
+print(rDNA)
+print(paste("A",p[1],"%","/","C",p[2],"%","/","G",p[3],"%","/","T",p[4],"%","/","N",p[5],"%","/","Omitido",p[6],"%"))
+
+```
+
+4.	Programa una función que transcribe DNA a RNA, usa la siguiente tabla:
+
+```{r ej4}
+
+complemento=function(DNA){
+  DNAc=c()
+  for (i in 1:length(DNA)){
+    if(DNA[i]=="A"){
+      DNAc[i]="T"
+    }else if (DNA[i]=="T"){
+      DNAc[i]="A"
+    }else if(DNA[i]=="C"){
+      DNAc[i]="G"
+    }else if(DNA[i]=="G"){
+      DNAc[i]="C"
+    }else if(DNA[i]=="-"){
+      DNAc[i]="-"
+    }else if(DNA[i]=="N"){
+      DNAc[i]="N"
+    }
+  }
+  return (transcribir(DNAc))
+}
+
+transcribir=function(DNA){
+  RNA=c()
+  for (i in 1:length(DNA)){
+    if(DNA[i]=="A"){
+      RNA[i]="U"
+    }else if (DNA[i]=="T"){
+      RNA[i]="A"
+    }else if(DNA[i]=="C"){
+      RNA[i]="G"
+    }else if(DNA[i]=="G"){
+      RNA[i]="C"
+    }else if(DNA[i]=="-"){
+      RNA[i]="-"
+    }else if(DNA[i]=="N"){
+      RNA[i]="N"
+    }
+  }
+  return (RNA)
+}
+
+transcribirComplemento=function(DNA){
+  RNAc = complemento(DNA)
+  RNAc = transcribirComplemento(DNA)
+}
+
+RNAc=transcribir(rDNA)
+print(RNAc)
+print(rDNA)
+
+```
+
+5.	Crea una función que traduce una secuencia de RNA a una secuencia de proteínas.
+
+```{r ej5}
+
+traduce = function(i){
+    
+    if(i == 'UUU' || i == 'UUC'){
+      amino = 'Phe'
+    } else if(i == 'UUA' || i == 'UUG' || i == 'CUU' || i == 'CUC' || i == 'CUA' || i == 'CUG' ){
+      amino = 'Leu'
+    } else if(i == 'AUU' || i == 'AUC' || i == 'AUA'){
+      amino = 'Ile'
+    } else if(i == 'AUG'){
+      amino = 'Met'
+    } else if(i == 'GUU' || i == 'GUC' || i == 'GUA' || i == 'GUG'){
+      amino = 'Val'
+    } else if(i == 'UCU' || i == 'UCC' || i == 'UCA' || i == 'UCG' || i == 'AGU' || i == 'AGC'){
+      amino = 'Ser'
+    } else if(i == 'CCU' || i == 'CCC' || i == 'CCA' || i == 'CCG'){
+      amino = 'Pro'
+    } else if(i == 'ACU' || i == 'ACC' || i == 'ACA' || i == 'ACG'){
+      amino = 'Thr'
+    } else if(i == 'GCU' || i == 'GCC' || i == 'GCA' || i == 'GCG'){
+      amino = 'Ala'
+    } else if(i == 'UAU' || i == 'UAC'){
+      amino = 'Tyr'
+    } else if(i == 'CAU' || i == 'CAC'){
+      amino = 'His'
+    } else if(i == 'CAA' || i == 'CAG'){
+      amino = 'Gln'
+    } else if(i == 'AAU' || i == 'AAC'){
+      amino = 'Asn'
+    } else if(i == 'AAA' || i == 'AAG'){
+      amino = 'Lys'
+    } else if(i == 'GAU' || i == 'GAC'){
+      amino = 'Asp'
+    } else if(i == 'GAA' || i == 'GAG'){
+      amino = 'Glu'
+    } else if(i == 'UGU' || i == 'UGC'){
+      amino = 'Cys'
+    } else if(i == 'UGG'){
+      amino = 'Trp'
+    } else if(i == 'CGU' || i == 'CGC' || i == 'CGA' || i == 'CGG' || i == 'AGA' || i == 'AGG'){
+      amino = 'Arg'
+    } else if(i == 'GCU' || i == 'GGC' || i == 'GGA' || i == 'GGG'){
+      amino = 'Gly'
+    } else if(i == 'UAA' || i == 'UAG' || i == 'UGA'){
+      amino = 'STOP'
+    } else {
+      amino = "N"
+    }
+    return (amino)
+  
+  }
+
+traduccion_proteina <- function(DNA){
+
+codones = c()
+i = 1
+j = 1  
+
+  
+
+while (i < length(DNA)){
+  codones[j] = sprintf('%s%s%s', DNA[i], DNA[i+1], DNA[i+2])
+  j = j + 1
+  i = i + 3
+}
+  
+lista_tripletes <- c()
+for(i in codones){
+  tri = traduce(i)
+  lista_tripletes <- append(lista_tripletes, tri, after = length(lista_tripletes))
+}
+print(lista_tripletes)
+}
+print(transcribir(rDNA))
+traduccion_proteina(transcribir(rDNA))
+
+```
+6.	Para representar una molécula de ADN de doble hebra basta con escribir la secuencia de una de sus hebras. Consideremos, por ejemplo, la secuencia TGCGATAC. Como no
+se indica lo contrario, se asume que la secuencia está escrita en sentido 5'→3' y, por lo
+tanto, se trata de la hebra directa (forward strand):
+Hebra directa: 
+5'-TGCGATAC-3'
+Análogamente, si decido escribir esta misma secuencia empezando por el extremo 3’ se obtiene la hebra inversa (reverse strand):
+Hebra inversa: 
+3'-CATAGCGT-5'
+Escribe una función que recibe una hebra directa y regresa la hebra inversa.
+
+```{r ej6}
+
+
+generar_lista <- function(){
+  n <- readline(prompt = "Enter size of DNA: ")
+  nucleotido_list <- c()
+  for (i in 1:n){
+    nucleotido <- readline(prompt = "Enter nucleotido: ")
+    nucleotido_list <- append(nucleotido_list, nucleotido, after = length(nucleotido_list))
+  }
+  return(nucleotido_list)
+}
+
+lista_inversa <- function(lista_i){
+  nucleotido_list <- c()
+  for (i in 0:length(lista_i)){
+    nucleotido_list = append(nucleotido_list, lista_i[length(lista_i)-i], after = length(nucleotido_list))
+  }
+  return(nucleotido_list)
+}
+
+#lista_nucleotidos = generar_lista()
+lista_nucleotidos = rDNA
+lista_nucleotidos
+lista_inversa(lista_nucleotidos)
+
+
+```
+
+7.	Normalmente se representa la molécula escribiendo primero la hebra directa y debajo la hebra complementaria (complementary strand). La hebra complementaria se escribe en sentido 3'→5' para que las bases de ambas hebras queden emparejadas: 
+a.	Hebra directa: 5'-TGCGATAC-3' 
+b.	Hebra complementaria: 3'-ACGCTATG-5'.
+Escribe una función qué recibe una hebra directa y obtiene la hebra complementaria.
+
+```{r ej7}
+
+
+generar_lista <- function(){
+  d <- readline(prompt = "Ingresa el tamanio de la hebra: ")
+  nucleotido_list <- c()
+  for (i in 1:d){
+    nucleotido <- readline(prompt = "Ingresa el nucleotido: ")
+    nucleotido_list <- append(nucleotido_list, nucleotido, after = length(nucleotido_list))
+  }
+  return(nucleotido_list)
+}
+
+lista_complementaria <- function(lista_i){
+  cnucleotido_list <- c()
+  for (i in 1:length(lista_i)){
+    if(lista_i[i]=="A"){
+      cnucleotido_list[i] <- "T"
+    } else if (lista_i[i]=="T"){
+      cnucleotido_list[i] <- "A"
+    } else if(lista_i[i]=="C"){
+      cnucleotido_list[i] <- "G"
+    } else if(lista_i[i]=="G"){
+      cnucleotido_list[i] <- "C"
+      #cnucleotido_list[i] <- append(cnucleotido_list, "C", after = length(cnucleotido_list))
+    }else if(lista_i[i]=="-"){
+      cnucleotido_list[i] <- "-"
+    }else if(lista_i[i]=="N"){
+      cnucleotido_list[i] <- "N"
+    }
+  }
+  return(cnucleotido_list)
+}
+#lista_nucleotidos = generar_lista()
+lista_nucleotidos = rDNA
+print(lista_nucleotidos)
+lista_complementaria(lista_nucleotidos)
+
+```
+
+8.	Si escribimos la secuencia de la hebra complementaria en sentido inverso (5'→3') se obtiene la complementaria inversa (reverse-complement):
+a.	Hebra complementaria: 3'-ACGCTATG-5'
+b.	Hebra complementaria inversa: 5'-GTATCGCA-3'
+Escribe la función en R para obtener la hebra complementaria inversa, desde una hebra complementaria.
+
+```{r ej8}
+
+print(complemento(rDNA))
+print(lista_inversa(complemento(rDNA)))
+
+```
+
+9.	Prueba cada una de las funciones y recuerda que las secuencias pueden contener caracteres especiales donde aparte de ATGC, en ADN, y AUGC, en ARN, pudimos ver algunos guiones (omitidos) y N (desconocido) nucleótido. 
+
+Caso de prueba:
+  *   Generar cadena codificante
+  *   Encontrar su tamaño
+  *   Porcentaje de cada nucleotido
+  *   Doble helice formada (cadena codificante y cadena molde)
+  *   Transcripcion de ADN a ARN y cadena molde
+  
+
+```{r ej9}
+
+
+ADN = randomDNA()
+tam_ADN = size(ADN)
+porcentajes(ADN,tam_ADN)
+
+print("Helices formadas:")
+print(ADN)
+print(lista_complementaria(ADN))
+print("Transcripcion de ADN a ARN:")
+ARN=transcribir(ADN)
+print(ARN)
+print(lista_complementaria(ADN))
+print("Doble helice inversa --->directa y complementaria inversas<--- :")
+print(lista_inversa(ADN))
+print(lista_inversa(lista_complementaria(ADN)))
+print("Traduccion de ARN a Proteina")
+print(transcribir(ADN))
+traduccion_proteina(transcribir(ADN))
+
+```
+
+
